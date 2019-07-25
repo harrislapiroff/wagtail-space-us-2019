@@ -20,7 +20,11 @@
                 <img src="images/images.001.jpg" alt="Image of slide number 1" />
             </div>
             <div class="slide-notes">
-                
+                      <p>I’m Harris and I work for the Freedom of the Press Foundation. I manage several Wagtail-powered sites there and if you’re interested in hearing more about that, please look up my talk from Wagtail Space US last year “Using Wagtail to Fight for Press Freedom.”</p>
+
+      <p>Today I want to talk to you about how to solve your problems by reading Wagtail’s code.</p>
+
+
             </div>
         </div>
         
@@ -29,7 +33,7 @@
                 <img src="images/images.002.jpg" alt="Image of slide number 2" />
             </div>
             <div class="slide-notes">
-                      <p>Who here has read parts of the Wagtail code before? I want too see how much I’m preaching to the choir before we start.</p>
+                      <p>To start off, who here has read parts of the Wagtail code before? I want to see how much I’m preaching to the choir before we start.</p>
 
       <p>Okay, some of you. Well, hopefully there will still be some interesting bits in this talk for you and for those of you who have never cracked open the codebase, hopefully today I can convince you to take a look inside.</p>
 
@@ -125,7 +129,7 @@
             <div class="slide-notes">
                       <p>I want to argue, if you haven’t done it before, reading the code is easier than you expect it to be and it means that you will never be stuck.</p>
 
-      <p>I think we Wagtail devs are lucky that we code in a language that’s designed to be easy to read. You’ll sometimes hear Python developers say “the code is the documentation” and I think they’re wrong (please, please, write documentation for your projects) but they’re not that wrong. And well-organized open-source projects like Django and Wagtail can actually be a pleasure to peruse.</p>
+      <p>I think we Wagtail devs are lucky that we code in a language that’s designed to be easy to read. You’ll sometimes hear Python developers say “the code is the documentation” and I think they’re wrong (please, please, write real documentation for your projects) but they’re not that wrong. And well-organized open-source projects like Django and Wagtail can actually be a pleasure to peruse.</p>
 
 
             </div>
@@ -166,11 +170,11 @@
                 <img src="images/images.013.jpg" alt="Image of slide number 13" />
             </div>
             <div class="slide-notes">
-                      <p>A Python import path is basically a file path that directs Python to load code from another file. So in our example here, importing sky_blue from colors.nature might tell python to look for an object named sky_blue inside of the colors/nature.py file, or maybe inside of colors/nature/__init__.py if colors/nature is a directory, or it might tell it to import all of the objects inside a sky_blue.py file or inside of a sky_blue/__init__.py file if sky_blue is also a directory.</p>
+                      <p>A Python import path is basically a file path that directs Python to load code from another file. So in our example here, importing `sky_blue` from colors.nature might tell python to look for an object named `sky_blue` inside of the `colors/nature.py` file, or maybe inside of `colors/nature/__init__.py` if colors/nature is a directory, or it might tell it to import all of the objects inside a `sky_blue.py` file or inside of a `sky_blue/__init__.py` file if `sky_blue` is also a directory.</p>
 
-      <p>In general it will looks for these files either inside the directory of the script that’s running (in most cases for us, that will be the directory that manage.py is in) or in the packages that you’ve installed using pip or pipenv or whatever.</p>
+      <p>In general it will looks for these files either inside the directory of the script that’s running (in most cases for us, that will be the directory that `manage.py` is in) or in the packages that you’ve installed using pip or pipenv or whatever.</p>
 
-      <p>That’s a bit of an oversimplification, but it should be enough to tell you where you’re looking for the relevant code to read and why you can import from `home.models` and have it come from your code, but import `wagtail.core.models` and have it come from the version of wagtail you installed.</p>
+      <p>That’s a bit of an oversimplification, but it should be enough to tell you where you’re looking for the relevant code to read and why you can import from `home.models` and have it come from your code, but import `wagtail.core.models` and have it come from the version of Wagtail you installed.</p>
 
 
             </div>
@@ -251,7 +255,7 @@
                 <img src="images/images.020.jpg" alt="Image of slide number 20" />
             </div>
             <div class="slide-notes">
-                      <p>Okay, let’s try seeking out some volunteer members of the Wagtail community to provide us with support. I could go post in Wagtail Slack #support channel right now or add a question to StackOverflow, but instead, since I have all of you in front of me, I want to do this as an experiment. Sort of a dangerous experiment for me to be doing in a room that has so many Wagtail, but can anyone in here tell me how to solve my problem?</p>
+                      <p>Okay, let’s try seeking out some volunteer members of the Wagtail community to provide us with support. I could go post in Wagtail Slack #support channel right now or add a question to StackOverflow, but instead, since I have all of you in front of me, I want to do this as an experiment. Sort of a dangerous experiment for me to be doing in a room that has so many Wagtail core devs, but can anyone in here tell me how to solve my problem?</p>
 
       <p>(If someone responds with the correct answer: Yes, you’re right. But let’s imagine {{ PERSON }} wasn’t available to answer my question when I asked it in Slack. I mean, they’re a pretty busy person and can’t always be around.)</p>
 
@@ -292,7 +296,7 @@
                 <img src="images/images.023.jpg" alt="Image of slide number 23" />
             </div>
             <div class="slide-notes">
-                      <p>This looks very promising. I can see this send_mail method that I can make a pretty good educated guess is where Wagtail actually sends the form submission email. If I want to be totally confident, I can spool around this file a bit. I see that `send_mail` is called from `process_form_submission` up above in the same class. If I scroll up just a little in the same file I can find the superclass Abstract Form that the Abstract Email Form inherits from.</p>
+                      <p>This looks very promising. I can see this `send_mail` method that I can make a pretty good educated guess is where Wagtail actually sends the form submission email. If I want to be totally confident, I can spool around this file a bit. I see that `send_mail` is called from `process_form_submission` up above in the same class. If I scroll up just a little in the same file I can find the superclass `AbstractForm` that the `AbstractEmailForm` inherits from.</p>
 
 
             </div>
@@ -303,7 +307,7 @@
                 <img src="images/images.024.jpg" alt="Image of slide number 24" />
             </div>
             <div class="slide-notes">
-                      <p>I find that superclass has this serve method, which I happen to know is the method Wagtail pages use for handling requests. If I read through this method I can see that when it encounters a POST request—a form submission— it checks if the form is valid and cals the process_form_submission method. Which confirms that send_email does in fact get called when a form is submitted.</p>
+                      <p>I find that superclass has this serve method, which I happen to know is the method Wagtail pages use for handling requests. If I read through this method I can see that when it encounters a POST request—a form submission—it checks if the form is valid and cals the `process_form_submission` method. Which confirms that `send_email` does in fact get called when a form is submitted.</p>
 
 
             </div>
@@ -314,7 +318,7 @@
                 <img src="images/images.025.jpg" alt="Image of slide number 25" />
             </div>
             <div class="slide-notes">
-                      <p>So returning now to the Abstract Email Form, we can read through this send_mail method and understand what it’s doing.</p>
+                      <p>So returning now to the `AbstractEmailForm`, we can read through this `send_mail` method and understand what it’s doing.</p>
 
       <p>            - It reads off the `to_addresses` field, splits them by commas into and strips whitespace off of them using a list comprehension. Seems pretty predictable</p>
 
@@ -333,7 +337,7 @@
                 <img src="images/images.026.jpg" alt="Image of slide number 26" />
             </div>
             <div class="slide-notes">
-                      <p>There might be any number of ways of solving this problem now that we understand what’s going on under the hood, but the one we chose was to override the send_mail method. We basically copied the method over and then, as you can see on lines 12, 20, 21, and 25, added some logic for dealing with the subject.</p>
+                      <p>There might be any number of ways of solving this problem now that we understand what’s going on under the hood, but the one we chose was to override the `send_mail` method. We basically copied the method over and then, as you can see on lines 12, 20, 21, and 25, added some logic for dealing with the subject.</p>
 
       <p>Basically this logic checks if each field has the label “Subject” (this field would be defined by a content editor from the admin). If such a field exists, it interpolates the value of that form field into a new subject line. If no such field exists, it uses the editor provided subject line as usual.</p>
 
@@ -357,7 +361,7 @@
                 <img src="images/images.028.jpg" alt="Image of slide number 28" />
             </div>
             <div class="slide-notes">
-                      <p>Notice we’re using a send mail function that comes from Wagtail. We copied that over as is from the AbstractEmailForm method. If we want to generate an HTML email to send, that seems like a good first place to look. Let’s see what that function actually looks like.</p>
+                      <p>Notice we’re using a `send_mail` function (different from the `send_mail` method on the form page) that comes from Wagtail. We copied that over as is from the `AbstractEmailForm` method. If we want to generate an HTML email to send, that seems like a good first place to look. Let’s see what that function actually looks like.</p>
 
 
             </div>
@@ -370,11 +374,11 @@
             <div class="slide-notes">
                       <p>Now, before we get to answering our question of how to add an HTML message, I just want to say, there’s a whole lot of interesting stuff going on in this function that I would never know about if I hadn’t tried to read it.</p>
 
-      <p>First of all, if we look at this top block here, we can see that if we weren’t providing a from_email, it would default to one of these three email addresses: the setting for the wagtail admin notification emails, or the setting for default from email as a fallback, or just webmaster@localhost as a final hardcoded fallback. None of that’s necessarily useful information to me right now, but if someday I start seeing emails coming through Wagtail from webmaster@localhost mysteriously, I’ll now have a pretty good idea where to look for more info.</p>
+      <p>First of all, if we look at this top block here, we can see that if we weren’t providing a `from_email`, it would default to one of these three email addresses: the setting for the wagtail admin notification emails, or the setting for default from email as a fallback, or just `webmaster@localhost` as a final hardcoded fallback. None of that’s necessarily useful information to me right now, but if someday I start seeing emails coming through Wagtail from `webmaster@localhost` mysteriously, I’ll now have a pretty good idea where to look for more info.</p>
 
       <p>Secondly, it looks like if we want to we could use a custom email connection if we wanted to. I don’t need to do that right now, but it’s nice to know.</p>
 
-      <p>Finally, looking way down at the bottom few lines, it looks like we can add an HTML message just by providing an html_message kwarg. I’m not going to walk through the process of writing that feature with you all now, but you can see how you would start to do that and you can see how reading the code made that knowledge possible.</p>
+      <p>Finally, looking way down at the bottom few lines, it looks like we can add an HTML message just by providing an `html_message` kwarg. I’m not going to walk through the process of writing that feature with you all now, but you can see how you would start to do that and you can see how reading the code made that knowledge possible.</p>
 
 
             </div>
